@@ -1,16 +1,18 @@
 export default function ChatInput({ sendPrompt }: { sendPrompt: ((formData: FormData) => void) | undefined }) {
   return (
-    <form action={sendPrompt}>
-      <input 
-        type="text" 
-        name="prompt" 
-        className="px-4 py-2 mb-3" 
-        placeholder="Prompt..." 
-        required
-      />
-      <button className="bg-blue-500 rounded px-4 py-2 text-white">
-        Send
-      </button>
+    <form action={sendPrompt} className="flex-none p-1 border-t">
+      <div className="flex">
+        <input
+          type="text"
+          name="prompt"
+          className="flex-grow px-4 py-2 mb-3 border rounded"
+          placeholder="Prompt..."
+          required
+        />
+        <button className="bg-orange-500 rounded px-4 py-2 text-white ml-2">
+          Send
+        </button>
+      </div>
     </form>
   );
 }

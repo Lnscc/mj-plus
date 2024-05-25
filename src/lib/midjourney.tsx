@@ -6,11 +6,11 @@ let results: { [key: string]: { uri: string; progress: string } } = {};
 
 async function initMjClient() {
     mjClient = new Midjourney({
-    SalaiToken: process.env.SALAI_TOKEN!,
-    ChannelId: process.env.CHANNEL_ID!,
-    ServerId: process.env.SERVER_ID!,
-    Debug: false,
-    Ws: true,
+        SalaiToken: process.env.SALAI_TOKEN!,
+        ChannelId: process.env.CHANNEL_ID!,
+        ServerId: process.env.SERVER_ID!,
+        Debug: false,
+        Ws: true,
     });
 
     await mjClient.init();
