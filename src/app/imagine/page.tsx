@@ -1,11 +1,12 @@
 import ChatInput from '@/components/ChatInput';
 import ChatBox from '@/components/ChatBox';
 import { addMessage } from '@/lib/messages';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { redirect } from 'next/navigation';
+import { checkAuth } from '@/utils/checkAuth';
 
 export default async function Page() {
-  
+  const { permissions } = await checkAuth();
+  if (!permissions.createImage) return <>Not Authenticated</>;
+
   const sendPrompt = async (formData: FormData) => {
     "use server";
     const prompt = formData.get('prompt') as string;

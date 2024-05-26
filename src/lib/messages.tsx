@@ -1,6 +1,7 @@
 "use server";
 import { MessageType } from "@/components/Message";
 import { Imagine } from "@/lib/midjourney";
+import { checkAuth } from "@/utils/checkAuth";
 
 let messages: MessageType[] = [
   // { id: -1, prompt: "Testing", image_url: "", progress: "0%" }
@@ -8,6 +9,9 @@ let messages: MessageType[] = [
 let id = 0;
 
 export async function addMessage(message: string, onProgress: (uri: string, progress: string) => void) {
+  const { permissions } = await checkAuth();
+  if (!permissions.createImage) return;
+  
   console.log("Adding message: ", message);
   const currId = id++;
   messages.push({ id: currId, prompt: message, image_url: "", progress: "0%" });
