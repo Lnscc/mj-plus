@@ -4,15 +4,23 @@ import { LoginLink, LogoutLink, RegisterLink } from '@kinde-oss/kinde-auth-nextj
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Navbar: React.FC = () => {
     const { user, isAuthenticated, isLoading } = useKindeBrowserClient();
+    const pathname = usePathname();
+    
+    const isActive = (path: string) => pathname === path;
 
     return (
         <nav className="flex justify-between items-center px-6 py-4 bg-orange-400 rounded-lg shadow-md">
             <div className="flex space-x-4">
-                <Link href="/" className="text-white hover:text-gray-100 transition">Home</Link>
-                <Link href="/imagine" className="text-white hover:text-gray-100 transition">Imagine</Link>
+                <Link href="/" className={`text-white px-4 py-2 rounded ${isActive('/') ? 'bg-white text-black' : ''}`}>
+                    Home
+                </Link>
+                <Link href="/imagine" className={`text-white px-4 py-2 rounded ${isActive('/imagine') ? 'bg-white text-black' : ''}`}>
+                    Imagine
+                </Link>
             </div>
             <div className="flex items-center space-x-4">
                 {isLoading && (
