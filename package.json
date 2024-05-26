@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@kinde-oss/kinde-auth-nextjs": "^2.2.10",
     "interval-hooks": "^0.2.0",
     "midjourney": "^4.3.17",
     "next": "14.2.3",

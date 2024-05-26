@@ -2,7 +2,9 @@
 import { MessageType } from "@/components/Message";
 import { Imagine } from "@/lib/midjourney";
 
-let messages: MessageType[] = [{ id: -1, prompt: "Testing", image_url: "", progress: "0%" }];
+let messages: MessageType[] = [
+  // { id: -1, prompt: "Testing", image_url: "", progress: "0%" }
+];
 let id = 0;
 
 export async function addMessage(message: string, onProgress: (uri: string, progress: string) => void) {

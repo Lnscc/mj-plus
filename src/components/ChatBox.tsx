@@ -21,7 +21,7 @@ export default function ChatBox() {
   return (
     <div className="flex-grow overflow-auto p-0">
       <ul>
-        {messages.map((msg, index) => (
+        {messages.map((msg) => (
           <li key={msg.id}>
             <Message message={msg} />
           </li>

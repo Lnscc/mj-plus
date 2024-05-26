@@ -1,9 +1,11 @@
 import ChatInput from '@/components/ChatInput';
 import ChatBox from '@/components/ChatBox';
 import { addMessage } from '@/lib/messages';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-
+export default async function Page() {
+  
   const sendPrompt = async (formData: FormData) => {
     "use server";
     const prompt = formData.get('prompt') as string;
