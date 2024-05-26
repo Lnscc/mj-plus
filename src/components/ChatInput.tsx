@@ -9,7 +9,7 @@ export default function ChatInput({ sendPrompt }: { sendPrompt: ((formData: Form
           placeholder="Prompt..."
           required
         />
-        <button className="bg-orange-500 rounded px-4 py-2 text-white ml-2">
+        <button className="bg-orange-400 rounded px-4 py-2 text-white ml-2">
           Send
         </button>
       </div>

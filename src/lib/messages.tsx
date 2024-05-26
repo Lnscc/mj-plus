@@ -4,7 +4,7 @@ import { Imagine } from "@/lib/midjourney";
 import { checkAuth } from "@/utils/checkAuth";
 
 let messages: MessageType[] = [
-  // { id: -1, prompt: "Testing", image_url: "", progress: "0%" }
+  { id: -1, prompt: "Testing", image_url: "", progress: "0%" }
 ];
 let id = 0;
 

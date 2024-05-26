@@ -1,13 +1,11 @@
-import { LoginLink, LogoutLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components';
-import React from 'react';
 
 const HomePage: React.FC = () => {
   return (
-    <div>
-      <h1>Welcome to the Image Processor App</h1>
-      <LoginLink>Sign in</LoginLink> <br />
-      <RegisterLink>Sign up</RegisterLink> <br />
-      <LogoutLink>Log out</LogoutLink>
+    <div className="flex flex-grow py-2 justify-center">
+      <h1 className="text-3xl">
+        Midjourney Plus - by @Lnsc
+        {/* random images von gallery */}
+      </h1>
     </div>
   );
 };

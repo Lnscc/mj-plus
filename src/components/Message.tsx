@@ -9,7 +9,7 @@ export default function Message({ message }: { message: MessageType }) {
       {message.progress === "100%" ? "✅" : message.progress}
       <div
         style={{ width: width, height: width, position: "relative" }}
-        className="bg-gray-200"
+        className="bg-gray-950/10"
       >
         {message.image_url === "" ? (
           <div
