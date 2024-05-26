@@ -15,10 +15,10 @@ const Navbar: React.FC = () => {
     return (
         <nav className="flex justify-between items-center px-6 py-4 bg-orange-400 rounded-lg shadow-md">
             <div className="flex space-x-4">
-                <Link href="/" className={`text-white px-2 py-2 rounded ${isActive('/') ? 'bg-white text-gray-950' : ''}`}>
+                <Link href="/" className={`text-white px-2 py-2 rounded ${isActive('/') ? 'bg-orange-300' : ''}`}>
                     Home
                 </Link>
-                <Link href="/imagine" className={`text-white px-2 py-2 rounded ${isActive('/imagine') ? 'bg-white text-gray-950' : ''}`}>
+                <Link href="/imagine" className={`text-white px-2 py-2 rounded ${isActive('/imagine') ? 'bg-orange-300' : ''}`}>
                     Imagine
                 </Link>
             </div>

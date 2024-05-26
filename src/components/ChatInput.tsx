@@ -5,7 +5,7 @@ export default function ChatInput({ sendPrompt }: { sendPrompt: ((formData: Form
         <input
           type="text"
           name="prompt"
-          className="flex-grow px-4 py-2 mb-3 border rounded"
+          className="flex-grow px-4 py-2 mb-3 border rounded text-black"
           placeholder="Prompt..."
           required
         />
