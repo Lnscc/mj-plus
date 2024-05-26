@@ -13,8 +13,10 @@ export async function addMessage(message: string, onProgress: (uri: string, prog
   if (!permissions.createImage) return;
   
   console.log("Adding message: ", message);
+
   const currId = id++;
   messages.push({ id: currId, prompt: message, image_url: "", progress: "0%" });
+  console.log("Messages: ", messages);
   onProgress("", "0%");
   await Imagine(message, async (uri, progress) => {
     const msg = await getMessage(currId);
