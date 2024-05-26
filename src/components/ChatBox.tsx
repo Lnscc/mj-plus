@@ -13,7 +13,7 @@ export default function ChatBox() {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 2500);
+    }, 10 * 1000);
 
     return () => clearInterval(interval);
   }, [])
