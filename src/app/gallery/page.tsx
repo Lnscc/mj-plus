@@ -11,7 +11,7 @@ export default function Page() {
 
     useEffect(() => {
         async function init() {
-            setImages(await getMessages());
+            setImages((await getMessages()).reverse());
         }
         init();
     }, []);
@@ -19,9 +19,9 @@ export default function Page() {
     return (
         <div className="flex flex-wrap">
             {images.map((image) => (
-                <div key={image.id} className="w-1/4 p-2">
+                <div key={image.id} className="p-0">
                     {!image.image_url ? (
-                        <div className="flex justify-center items-center w-full h-full">
+                        <div className="flex justify-center items-center w-[200px] h-[200px]">
                             <TailSpin
                                 height="80"
                                 width="80"

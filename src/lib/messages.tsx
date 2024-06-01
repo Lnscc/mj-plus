@@ -33,7 +33,7 @@ export async function addMessage(message: string) {
 
 
 export async function getMessages() {
-  return await prisma.gallery.findMany();
+  return await prisma.gallery.findMany({ orderBy: { id: 'asc' } });
 }
 
 export async function getMessage(id: number) {
@@ -52,4 +52,8 @@ export async function setMessage(
     where: { id },
     data,
   });
+}
+
+export async function deleteMessage(id: number) {
+  return await prisma.gallery.delete({where: { id }});
 }

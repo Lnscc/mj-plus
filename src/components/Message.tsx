@@ -1,12 +1,15 @@
+import { deleteMessage } from "@/lib/messages";
 import Image from "next/image";
 import { TailSpin } from "react-loader-spinner";
 
 export default function Message({ message }: { message: MessageType }) {
   const width = window.innerWidth > 500 ? 500 : window.innerWidth;
+  const handleDelete = () => deleteMessage(message.id);
   return (
     <div>
       {message.prompt} {message.hash}{" "}
       {message.progress === "100%" ? "✅" : message.progress}
+      {message.id}
       <div
         style={{ width: width, height: width, position: "relative" }}
         className="bg-gray-950/10"
@@ -37,6 +40,7 @@ export default function Message({ message }: { message: MessageType }) {
           />
         )}
       </div>
+      <button className="border rounded p-1 bg-gray-400" onClick={handleDelete}>Delete 🗑</button>
     </div>
   );
 }
