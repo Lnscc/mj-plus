@@ -21,6 +21,12 @@ const Navbar: React.FC = () => {
                 <Link href="/imagine" className={`text-white px-2 py-2 rounded ${isActive('/imagine') ? 'bg-orange-300' : ''}`}>
                     Imagine
                 </Link>
+                <Link href="/gallery" className={`text-white px-2 py-2 rounded ${isActive('/gallery') ? 'bg-orange-300' : ''}`}>
+                    Gallery
+                </Link>
+                <Link href="/styles" className={`text-white px-2 py-2 rounded ${isActive('/styles') ? 'bg-orange-300' : ''}`}>
+                    Styles
+                </Link>
             </div>
             <div className="flex items-center space-x-4">
                 {isLoading && (

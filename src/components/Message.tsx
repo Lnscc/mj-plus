@@ -11,7 +11,7 @@ export default function Message({ message }: { message: MessageType }) {
         style={{ width: width, height: width, position: "relative" }}
         className="bg-gray-950/10"
       >
-        {message.image_url === "" ? (
+        {!message.image_url ? (
           <div
             style={{
               display: "flex",
@@ -30,7 +30,7 @@ export default function Message({ message }: { message: MessageType }) {
           </div>
         ) : (
           <Image
-            src={message.image_url}
+            src={message.image_url!}
             alt={message.prompt}
             width={width}
             height={width}
@@ -43,8 +43,8 @@ export default function Message({ message }: { message: MessageType }) {
 
 export type MessageType = {
   id: number;
-  prompt: string;
-  image_url: string;
   progress: string;
-  hash?: string;
+  prompt: string;
+  image_url: string | null;
+  hash: string | null;
 };
