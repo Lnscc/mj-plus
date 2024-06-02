@@ -10,6 +10,14 @@ const nextConfig = {
           protocol: 'https',
           hostname: 'cdn.discordapp.com',
         },
+        {
+          protocol: 'https',
+          hostname: 'cdn.midjourney.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'mj-plus-bucket.s3.eu-north-1.amazonaws.com',
+        },
       ],
     },
 };

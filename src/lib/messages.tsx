@@ -2,6 +2,7 @@
 import { Imagine } from "@/lib/midjourney";
 import { checkAuth } from "@/utils/checkAuth";
 import prisma from "@/lib/prisma";
+import { downloadMjImages } from "@/lib/downloader";
 
 async function hasCreateImagePermission() {
   const { permissions } = await checkAuth();
@@ -28,6 +29,7 @@ export async function addMessage(message: string) {
     await setMessage(currId, {image_url: uri, progress: progress})
   }).then(async (message) => {
     await setMessage(currId, { hash: message?.hash, progress: "100%", image_url: message?.proxy_url })
+    await downloadMjImages(message?.hash!)
   });
 }
 

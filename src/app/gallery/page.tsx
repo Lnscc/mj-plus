@@ -6,38 +6,31 @@ import Image from "next/image";
 import { TailSpin } from "react-loader-spinner";
 
 export default function Page() {
-    const [images, setImages] = useState<MessageType[]>([]);
+    const [messages, setMessages] = useState<MessageType[]>([]);
     const width = 200;
 
     useEffect(() => {
         async function init() {
-            setImages((await getMessages()).reverse());
+            setMessages((await getMessages()).reverse());
         }
         init();
     }, []);
 
     return (
         <div className="flex flex-wrap">
-            {images.map((image) => (
-                <div key={image.id} className="p-0">
-                    {!image.image_url ? (
-                        <div className="flex justify-center items-center w-[200px] h-[200px]">
-                            <TailSpin
-                                height="80"
-                                width="80"
-                                color="#00BFFF"
-                                ariaLabel="loading"
+            {messages.filter((message) => message.progress === "100%").map((message) => (
+                <div key={message.id} className="p-0">
+                    {
+                        Array.from({ length: 4 }).map((_, index) => (
+                            <Image
+                                key={index}
+                                src={`https://mj-plus-bucket.s3.eu-north-1.amazonaws.com/images/${message.hash}_${index}.png`}
+                                alt={message.prompt}
+                                width={width}
+                                height={width}
                             />
-                        </div>
-                    ) : (
-                        <Image
-                            src={image.image_url!}
-                            alt={image.prompt}
-                            width={width}
-                            height={width}
-                            className="object-cover"
-                        />
-                    )}
+                        ))
+                    }
                 </div>
             ))}
         </div>
