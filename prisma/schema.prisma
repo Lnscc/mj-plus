@@ -16,8 +16,8 @@ datasource db {
 model Messages {
   id                    Int       @id @default(autoincrement())
   prompt                String    @default("")
-  // params                String?
-  // gpt                   Boolean   @default(false)
+  params                String?
+  gptPrompt             String?
   progress              String    @default("0%")
   image_url             String?
   image_upscale_urls    String[]  @default([])

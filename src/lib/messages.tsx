@@ -9,24 +9,35 @@ async function hasCreateImagePermission() {
   return permissions.createImage;
 }
 
-async function addNewMessage(message: string): Promise<number> {
+const getAspectRatio = (params?: string) => {
+  if (!params) return;
+  const ar = params.match(/--ar (\d+):(\d+)/);
+  if (ar) return { x: parseInt(ar[1]), y: parseInt(ar[2]) }
+}
+
+async function addNewMessage(prompt: string, params?: string): Promise<number> {
+  const ar = getAspectRatio(params);
   const res = await prisma.messages.create({
     data: {
-      prompt: message
+      prompt: prompt,
+      params: params,
+      aspect_ratio_x: ar?.x,
+      aspect_ratio_y: ar?.y
     },
   });
   return res.id;
 }
 
-export async function addMessage(message: string) {
+export async function addMessage(prompt: string, params?: string) {
   if (!await hasCreateImagePermission()) return;
-  
+
+  const message = (prompt + " " + params).trim()
   console.log("Adding message: ", message);
 
-  const currId = await addNewMessage(message);
+  const currId = await addNewMessage(prompt, params);
 
   await Imagine(message, async (uri, progress) => {
-    await setMessage(currId, {image_url: uri, progress: progress})
+    await setMessage(currId, { image_url: uri, progress: progress })
   }).then(async (message) => {
     await setMessage(currId, { hash: message?.hash, progress: "100%", image_url: message?.proxy_url })
     await downloadMjImages(message?.hash!)
@@ -47,7 +58,7 @@ export async function getMessage(id: number) {
 }
 
 export async function setMessage(
-  id: number, 
+  id: number,
   data: { progress?: string, image_url?: string, hash?: string, prompt?: string }
 ) {
   return await prisma.messages.update({
@@ -69,5 +80,5 @@ export async function addImageToMessage(hash: string, image_upscale_url: string)
 }
 
 export async function deleteMessage(id: number) {
-  return await prisma.messages.delete({where: { id }});
+  return await prisma.messages.delete({ where: { id } });
 }

@@ -47,10 +47,12 @@ export default function Message({ message }: { message: MessageType }) {
 
 export type MessageType = {
   id: number;
+  hash: string | null;
   progress: string;
   prompt: string;
+  params: string | null;
+  gptPrompt: string | null;
   image_url: string | null;
-  hash: string | null;
   image_upscale_urls: string[];
   aspect_ratio_x: number;
   aspect_ratio_y: number;
