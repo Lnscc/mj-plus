@@ -7,12 +7,12 @@ export default function Message({ message }: { message: MessageType }) {
   const handleDelete = () => deleteMessage(message.id);
   return (
     <div>
-      {message.prompt} {message.hash}{" "}
+      {message.prompt} {message.params} {message.hash}{" "}
       {message.progress === "100%" ? "✅" : message.progress}
       {message.id} <br />
       <button className="border rounded p-1 bg-gray-400" onClick={handleDelete}>Delete 🗑</button>
       <div
-        style={{ width: width, height: width, position: "relative" }}
+        style={{ width: width, height: width * message.aspect_ratio_y / message.aspect_ratio_x, position: "relative" }}
         className="bg-gray-950/10"
       >
         {!message.image_url ? (
