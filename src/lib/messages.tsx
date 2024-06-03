@@ -10,7 +10,7 @@ async function hasCreateImagePermission() {
 }
 
 async function addNewMessage(message: string): Promise<number> {
-  const res = await prisma.gallery.create({
+  const res = await prisma.messages.create({
     data: {
       prompt: message
     },
@@ -35,11 +35,11 @@ export async function addMessage(message: string) {
 
 
 export async function getMessages() {
-  return await prisma.gallery.findMany({ orderBy: { id: 'asc' } });
+  return await prisma.messages.findMany({ orderBy: { id: 'asc' } });
 }
 
 export async function getMessage(id: number) {
-  return await prisma.gallery.findFirst({
+  return await prisma.messages.findFirst({
     where: {
       id: id,
     },
@@ -50,12 +50,24 @@ export async function setMessage(
   id: number, 
   data: { progress?: string, image_url?: string, hash?: string, prompt?: string }
 ) {
-  return await prisma.gallery.update({
+  return await prisma.messages.update({
     where: { id },
     data,
   });
 }
 
+export async function addImageToMessage(hash: string, image_upscale_url: string) {
+  const message = await prisma.messages.update({
+    where: { hash },
+    data: {
+      image_upscale_urls: {
+        push: image_upscale_url,
+      },
+    },
+  });
+  return message;
+}
+
 export async function deleteMessage(id: number) {
-  return await prisma.gallery.delete({where: { id }});
+  return await prisma.messages.delete({where: { id }});
 }

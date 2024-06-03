@@ -1,5 +1,6 @@
 import { chromium } from 'playwright';
 import { uploadFile } from './uploader';
+import { addImageToMessage } from './messages';
 
 const defaultPath = "C:/Users/Linus/Documents/Projekte/mj-plus/images";
 
@@ -26,7 +27,8 @@ export const downloadImage = async (url: string, name: string, toPath = defaultP
     try {
         const buffer = await downloadImageBuffer(url);
         const s3Upload = await uploadFile(buffer, name)
-        console.log(s3Upload)
+        const hash = name.match(/^([a-f0-9-]+)_\d+\.\w+$/)?.[1]
+        if(hash) addImageToMessage(hash, s3Upload.Location)
     } catch (error) {
         console.error(`Error downloading ${url}:`, error);
     }

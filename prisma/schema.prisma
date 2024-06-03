@@ -13,10 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Gallery {
-  id        Int     @id @default(autoincrement())
-  progress  String  @default("0%")
-  prompt    String  @default("")
-  image_url String?
-  hash      String?
+model Messages {
+  id                    Int       @id @default(autoincrement())
+  prompt                String    @default("")
+  // params                String?
+  // gpt                   Boolean   @default(false)
+  progress              String    @default("0%")
+  image_url             String?
+  image_upscale_urls    String[]  @default([])
+  hash                  String?   @unique
+  aspect_ratio_x        Int       @default(1)
+  aspect_ratio_y        Int       @default(1)
 }

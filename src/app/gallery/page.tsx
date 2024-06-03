@@ -3,7 +3,6 @@ import { MessageType } from "@/components/Message";
 import { getMessages } from "@/lib/messages";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { TailSpin } from "react-loader-spinner";
 
 export default function Page() {
     const [messages, setMessages] = useState<MessageType[]>([]);
@@ -11,28 +10,32 @@ export default function Page() {
 
     useEffect(() => {
         async function init() {
-            setMessages((await getMessages()).reverse());
+            const msgs = (await getMessages()).reverse()
+            console.log(msgs)
+            setMessages(msgs);
         }
         init();
     }, []);
 
     return (
-        <div className="flex flex-wrap">
-            {messages.filter((message) => message.progress === "100%").map((message) => (
-                <div key={message.id} className="p-0">
-                    {
-                        Array.from({ length: 4 }).map((_, index) => (
-                            <Image
-                                key={index}
-                                src={`https://mj-plus-bucket.s3.eu-north-1.amazonaws.com/images/${message.hash}_${index}.png`}
-                                alt={message.prompt}
-                                width={width}
-                                height={width}
-                            />
+        <div className="flex flex-col h-[calc(91vh)]">
+            <div className="overflow-auto p-0">
+                <div className="columns-8 gap-1">
+                    {messages.map((message) => (
+                        message.image_upscale_urls.map((link, index) => (
+                            <div key={`${message.id}-${index}`} className="mb-1">
+                                <Image
+                                    src={`https://mj-plus-bucket.s3.eu-north-1.amazonaws.com/images/${message.hash}_${index}.png`}
+                                    alt={message.prompt}
+                                    width={width}
+                                    height={width}
+                                    className="w-full"
+                                />
+                            </div>
                         ))
-                    }
+                    ))}
                 </div>
-            ))}
+            </div>
         </div>
     );
 }

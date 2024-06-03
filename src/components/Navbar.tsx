@@ -13,8 +13,8 @@ const Navbar: React.FC = () => {
     const isActive = (path: string) => pathname === path;
 
     return (
-        <nav className="flex justify-between items-center px-6 py-4 bg-orange-400 rounded-lg shadow-md">
-            <div className="flex space-x-4">
+        <nav className="flex justify-between items-center px-4 py-2 bg-orange-400 rounded-lg shadow-md">
+            <div className="flex space-x-2">
                 <Link href="/" className={`text-white px-2 py-2 rounded ${isActive('/') ? 'bg-orange-300' : ''}`}>
                     Home
                 </Link>

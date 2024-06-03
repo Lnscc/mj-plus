@@ -9,7 +9,8 @@ export default function Message({ message }: { message: MessageType }) {
     <div>
       {message.prompt} {message.hash}{" "}
       {message.progress === "100%" ? "✅" : message.progress}
-      {message.id}
+      {message.id} <br />
+      <button className="border rounded p-1 bg-gray-400" onClick={handleDelete}>Delete 🗑</button>
       <div
         style={{ width: width, height: width, position: "relative" }}
         className="bg-gray-950/10"
@@ -40,7 +41,6 @@ export default function Message({ message }: { message: MessageType }) {
           />
         )}
       </div>
-      <button className="border rounded p-1 bg-gray-400" onClick={handleDelete}>Delete 🗑</button>
     </div>
   );
 }
@@ -51,4 +51,7 @@ export type MessageType = {
   prompt: string;
   image_url: string | null;
   hash: string | null;
+  image_upscale_urls: string[];
+  aspect_ratio_x: number;
+  aspect_ratio_y: number;
 };
