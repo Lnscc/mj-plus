@@ -1,6 +1,6 @@
-import S3 from 'aws-sdk/clients/s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const s3Client = new S3({
+const s3 = new S3Client({
     region: process.env.AWS_BUCKET_REGION,
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY!,
@@ -9,11 +9,15 @@ const s3Client = new S3({
 })
 
 export async function uploadFile(buffer: Buffer, name: string) {
-    const uploadParams: S3.PutObjectRequest = {
+    const location = "images/" + name
+    const uploadParams = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME!,
         Body: buffer,
-        Key: "images/" + name,
-    }
+        Key: location
+    })
 
-    return s3Client.upload(uploadParams).promise()
+    return {
+        ...await s3.send(uploadParams), 
+        location: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${location}`
+    }
 }

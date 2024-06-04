@@ -28,7 +28,7 @@ export const downloadImage = async (url: string, name: string, toPath = defaultP
         const buffer = await downloadImageBuffer(url);
         const s3Upload = await uploadFile(buffer, name)
         const hash = name.match(/^([a-f0-9-]+)_\d+\.\w+$/)?.[1]
-        if(hash) addImageToMessage(hash, s3Upload.Location)
+        if(hash) addImageToMessage(hash, s3Upload.location)
     } catch (error) {
         console.error(`Error downloading ${url}:`, error);
     }
