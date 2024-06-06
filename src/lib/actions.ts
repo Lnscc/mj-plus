@@ -12,11 +12,12 @@ interface FormDataObject {
 }
 
 export async function sendPrompt(formData: FormData) {
+  const nogString = formData.get('nog')?.toString() === "" ? "1" : formData.get('nog')?.toString()
   const data = {
     theme: formData.get('theme')?.toString().trim(),
     themeOptions: formData.get('themeOptions')?.toString().trim(),
     params: formData.get('params')?.toString().trim(),
-    nog: parseInt(formData.get('nog')?.toString() ?? "1"),
+    nog: parseInt(nogString ?? "1"),
     gpt: formData.get('gpt') === 'on',
     prompt: formData.get('prompt')!.toString().trim()
   };
