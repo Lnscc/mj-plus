@@ -23,10 +23,16 @@ export async function sendPrompt(formData: FormData) {
   };
 
   console.log(data)
-  if(!data.gpt) return addMessage(data.prompt, data.params); 
-  const prompts = await generatePrompts(promptToGpt(data.prompt, data.nog))
-  if(!prompts) return console.log ("GPT Erorr")
-  for (let i = 0; i < prompts.length; i++) {
-    await addMessage(prompts[i], data.params)
+  if (!data.gpt) {
+    for (let i = 0; i < data.nog; i++) {
+      await addMessage(data.prompt, data.params);
+    }
+  }
+  else {
+    const prompts = await generatePrompts(promptToGpt(data.prompt, data.nog))
+    if (!prompts) return console.log("GPT Erorr")
+    for (let i = 0; i < prompts.length; i++) {
+      await addMessage(prompts[i], data.params)
+    }
   }
 }
