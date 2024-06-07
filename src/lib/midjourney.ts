@@ -4,7 +4,8 @@ import { Midjourney } from "midjourney";
 let mjClient: Midjourney;
 let results: { [key: string]: { uri: string; progress: string } } = {};
 
-async function initMjClient() {
+export async function initMjClient() {
+    if(mjClient) return;
     mjClient = new Midjourney({
         SalaiToken: process.env.SALAI_TOKEN!,
         ChannelId: process.env.CHANNEL_ID!,
@@ -18,10 +19,6 @@ async function initMjClient() {
 }
 
 export async function Imagine(prompt: string, loading: (uri: string, progress: string) => void) {
-    if (!mjClient) {
-        mjClient = await initMjClient();
-    }
-
     const response = await mjClient.Imagine(prompt, loading);
     return response;
 }

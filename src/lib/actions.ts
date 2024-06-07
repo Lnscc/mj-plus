@@ -25,5 +25,8 @@ export async function sendPrompt(formData: FormData) {
   console.log(data)
   if(!data.gpt) return addMessage(data.prompt, data.params); 
   const prompts = await generatePrompts(promptToGpt(data.prompt, data.nog))
-  prompts?.forEach(prompt => addMessage(prompt, data.params))
+  if(!prompts) return console.log ("GPT Erorr")
+  for (let i = 0; i < prompts.length; i++) {
+    await addMessage(prompts[i], data.params)
+  }
 }

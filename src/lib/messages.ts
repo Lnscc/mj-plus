@@ -1,8 +1,12 @@
 "use server";
-import { Imagine } from "@/lib/midjourney";
+import { Imagine, initMjClient } from "@/lib/midjourney";
 import { checkAuth } from "@/utils/checkAuth";
 import prisma from "@/lib/prisma";
 import { downloadMjImages } from "@/lib/downloader";
+import PQueue from 'p-queue';
+import { handleDelay } from "@/utils/delay";
+
+const queue = new PQueue({ concurrency: 3 });
 
 async function hasCreateImagePermission() {
   const { permissions } = await checkAuth();
@@ -31,19 +35,32 @@ async function addNewMessage(prompt: string, params?: string): Promise<number> {
 export async function addMessage(prompt: string, params?: string) {
   if (!await hasCreateImagePermission()) return;
 
-  const message = (prompt + " " + params).trim()
+  const message = (prompt + " " + params).trim();
   console.log("Adding message: ", message);
 
   const currId = await addNewMessage(prompt, params);
+  
+  await initMjClient();
 
-  await Imagine(message, async (uri, progress) => {
-    await setMessage(currId, { image_url: uri, progress: progress })
-  }).then(async (message) => {
-    await setMessage(currId, { hash: message?.hash, progress: "100%", image_url: message?.proxy_url })
-    await downloadMjImages(message?.hash!)
+  queue.add(async () => {
+    console.log("add to queue");
+    try {
+      await handleDelay(3000);
+      await Imagine(message, async (uri, progress) => {
+        await setMessage(currId, { image_url: uri, progress: progress });
+      }).then(async (message) => {
+        if (message) {
+          await setMessage(currId, { hash: message.hash, progress: "100%", image_url: message.proxy_url });
+          await downloadMjImages(message.hash!);
+        }
+      });
+    } catch (error) {
+      console.error("Error processing message:", error);
+    }
+  }).catch(error => {
+    console.error("Queue task timed out or failed:", error);
   });
 }
-
 
 export async function getMessages() {
   return await prisma.messages.findMany({ orderBy: { id: 'asc' } });
@@ -82,3 +99,18 @@ export async function addImageToMessage(hash: string, image_upscale_url: string)
 export async function deleteMessage(id: number) {
   return await prisma.messages.delete({ where: { id } });
 }
+
+function getQueueStatus() {
+  return {
+    pending: queue.pending,
+    active: queue.size,
+  };
+}
+
+queue.on('add', () => {
+  console.log('Task added to the queue. Current queue status:', getQueueStatus());
+});
+
+queue.on('idle', () => {
+  console.log('Queue is now idle. Current queue status:', getQueueStatus());
+});
